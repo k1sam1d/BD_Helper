@@ -1,7 +1,7 @@
 import telebot
 from telebot import types
 
-TOKEN = '6675897493:AAFI7bGenWtgfSQXTZj0fmLbxH8C6nj9Ge4'
+TOKEN = ''
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -16,8 +16,8 @@ markup.add(item1, item2, item3, item4, item5)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.send_message(message.chat.id, '''Приветствую, сотрудник компании Avtochulan.
-Этот бот поможет тебе конвертировать номер детали в удобный для внесения в BAZON вид.
+    bot.send_message(message.chat.id, '''Приветствую, сотрудник компании **.
+Этот бот поможет тебе конвертировать номер детали в удобный для продажи автозапчастей.
 
 Если возникнут трудности - напиши /help''')
 
@@ -32,7 +32,6 @@ def start(message):
 @bot.message_handler(commands=['help'])
 def welcome(message):
     bot.send_message(message.chat.id, '''/start - запуск бота
-/help - справка
 /BMW - конвертация номеров деталей BMW (как старого образца, так и нового)
 /MERCEDES - конвертация номера детали Mercedes
 /VAG - конвертация номеров деталей VAG-Group''')
@@ -119,7 +118,7 @@ def bmw(message):
     result = ''
     list_of_numbers = message.text.split()
     for number in list_of_numbers:
-        if any(c.isalpha() for c in number):  # Проверка наличия букв в номере
+        if any(c.isalpha() for c in number): 
             first = create_string_with_space_for_new_bmw_oem(number)
             second = number[4:]
 
@@ -155,16 +154,5 @@ def vag(message):
         result += ', '.join([number, first, translate(second), translate(third)]) + ', ' + '\n'
 
     choice(message, result)
-
-headers ={
-    'Connection': 'keep-alive',
-    'Cache-Control': 'max-age=0',
-    'Upgrade-Insecure-Requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36 OPR/40.0.2308.81',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-    'DNT': '1',
-    'Accept-Encoding': 'gzip, deflate, lzma, sdch',
-    'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4'
-}
 
 bot.polling(none_stop=True)
